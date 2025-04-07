@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\bundle_streamer.props" />
-</Project>

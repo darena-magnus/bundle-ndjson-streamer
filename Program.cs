@@ -19,14 +19,14 @@ if (string.IsNullOrEmpty(token))
     return;
 }
 
-var fhirServerUrl = "https://app.stg.meldrx.com/api/fhir/256d74ce-ea3f-4d9a-ba57-a6bc99662093";
+var fhirServerUrl = "https://localhost:5000/api/fhir/202da151-72cd-4801-bdfb-fa4eb5b9add7";
 
 using var request = new HttpRequestMessage(HttpMethod.Post, fhirServerUrl + "/$stream")
 {
     Content = new ChunkedStreamContent(WriteNdjsonAsync)
 };
 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-request.Headers.Add("PackageName", "cassy again");
+request.Headers.Add("PackageName", "small");
 request.Headers.Add("Source", "Magnus-Hospital");
 
 request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-ndjson");
@@ -39,12 +39,12 @@ Console.WriteLine(response);
 
 static async Task<string> GetAuthTokenAsync(HttpClient client)
 {
-    var request = new HttpRequestMessage(HttpMethod.Post, "https://app.stg.meldrx.com/connect/token")
+    var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:5000/connect/token")
     {
         Content = new FormUrlEncodedContent(new[]
         {
-            new KeyValuePair<string, string>("client_id", "0aad47edc80b4b59b1f5e65224284d08"),
-            new KeyValuePair<string, string>("client_secret", "OYhkVIwVx3tyXhEA2npwn0d1yIPpNG"),
+            new KeyValuePair<string, string>("client_id", "3b32e6b5367a4596a0843b3103b96cdc"),
+            new KeyValuePair<string, string>("client_secret", "0M-xnYiyaq8H-nf1CK8Zvc3n4T0VrO"),
             new KeyValuePair<string, string>("grant_type", "client_credentials"),
             new KeyValuePair<string, string>("scope", "meldrx-api cds patient/*.*")
         })
@@ -65,7 +65,7 @@ static async Task<string> GetAuthTokenAsync(HttpClient client)
 
 static async Task WriteNdjsonAsync(Stream stream)
 {
-    string filePath = Path.Combine(Directory.GetCurrentDirectory(), "small-new-bundle.ndjson");
+    string filePath = Path.Combine(Directory.GetCurrentDirectory(), "duplicate-bundle.jsonl");
 
     if (!File.Exists(filePath))
     {
